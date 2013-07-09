@@ -1,14 +1,24 @@
 #!/usr/bin/env python3
 
 import argparse
+from datetime import date
+import getpass
+
+# guess default time parameter
+defaultYear = date.today().year
+defaultMonth = date.today().month
+defaultMonth -= 1
+if defaultMonth == 0:
+	defaultMonth = 12
+	defaultYear -=1
 
 # command line arguments
 parser = argparse.ArgumentParser(description="Converts 'svn log' output to timeSht log file")
 parser.add_argument("--input", type=open, default="svn.log", help="Output from 'svn log'")
 parser.add_argument("--output", type=argparse.FileType("a"), default="timesht.log", help="timeSht log file")
-parser.add_argument("--user", required=True, help="Your SVN username")
-parser.add_argument("--year", type=int, required=True, help="The year that contains your magic month")
-parser.add_argument("--month", type=int, required=True, help="The month you are looking for")
+parser.add_argument("--user", default=getpass.getuser(), help="Your SVN username")
+parser.add_argument("--year", type=int, default=defaultYear, help="The year that contains your magic month")
+parser.add_argument("--month", type=int, default=defaultMonth, help="The month you are looking for")
 
 args = parser.parse_args()
 
