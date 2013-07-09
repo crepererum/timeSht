@@ -17,7 +17,7 @@ A log file contains multiple, non sorted lines of the following structure:
 
     DAY HOUR a short message describing your work
 
-Do not use multiple spaces to seperate words, day and hour. The range of days is 1-28/19/30/31, the range of hours is 1-24. When collecting entries, put them into the hour you finish the described task. For the visual thinkers, here is an example:
+Do not use multiple spaces to seperate words, day and hour. The range of days is 1-28/29/30/31, the range of hours is 1-24. When collecting entries, put them into the hour you finish the described task. For the visual thinkers, here is an example:
 
     10 8 preparing coffee
     11 8 preparing better coffee
