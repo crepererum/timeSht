@@ -5,7 +5,7 @@ from collections import OrderedDict
 import random
 
 # command line arguments
-parser = argparse.ArgumentParser(description="Converts merged log to time sheet")
+parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="Converts merged log to time sheet")
 parser.add_argument("--input", type=open, default="timesht.log", help="Merged log file")
 parser.add_argument("--days", type=int, default=31, help="Number of days of this month")
 parser.add_argument("--total", type=int, default=40, help="Wanted number of total hours per month")

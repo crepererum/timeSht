@@ -13,7 +13,7 @@ if defaultMonth == 0:
 	defaultYear -=1
 
 # command line arguments
-parser = argparse.ArgumentParser(description="Converts 'svn log' output to timeSht log file")
+parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="Converts 'svn log' output to timeSht log file")
 parser.add_argument("--input", type=open, default="svn.log", help="Output from 'svn log'")
 parser.add_argument("--output", type=argparse.FileType("a"), default="timesht.log", help="timeSht log file")
 parser.add_argument("--user", default=getpass.getuser(), help="Your SVN username")
