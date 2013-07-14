@@ -63,4 +63,5 @@ for line in args.input.readlines():
 	delta += 1
 
 args.input.close()
+args.output.close()
 
