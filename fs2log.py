@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import subprocess
 import time
 
 # command line arguments
@@ -11,6 +12,7 @@ parser.add_argument("--output", type=argparse.FileType("a"), default="timesht.lo
 parser.add_argument("--suffixes", default="", help="Legal file suffixes, comma seperated list")
 parser.add_argument("--month", type=int, required=True, help="The magic month")
 parser.add_argument("--year", type=int, required=True, help="The magic year")
+parser.add_argument("--exiftool", action="store_true", help="Use exiftool to extract metadata from files")
 
 args = parser.parse_args()
 
@@ -56,6 +58,13 @@ for root, dirs, files in os.walk(args.path):
 				day = lt.tm_mday
 				hour = lt.tm_hour
 				message = file
+
+				# get file metadata #2
+				if args.exiftool:
+					title = subprocess.check_output(["exiftool", "-m", "-p", "$Title", path]).rstrip()
+					if len(title) > 0:
+						message = str(title, "utf-8")
+
 				args.output.write("%i %i %s\n" % (day, hour, message))
 
 # clean up
