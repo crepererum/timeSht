@@ -9,11 +9,13 @@ parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFo
 parser.add_argument("--input", type=open, default="timesht.log", help="Merged log file")
 parser.add_argument("--days", type=int, default=31, help="Number of days of this month")
 parser.add_argument("--total", type=int, default=40, help="Wanted number of total hours per month")
+parser.add_argument("--maxPerDay", type=int, default=8, help="Maximum working hours per day")
 
 args = parser.parse_args()
 
 # parse log file
 log = OrderedDict()
+totalDay = [0] * args.days
 for line in args.input:
 	parts = line.split(" ")
 	if len(parts) > 2:
@@ -21,7 +23,10 @@ for line in args.input:
 		time = int(parts[1])
 		timestamp = (day - 1) * 24 + time
 		message = " ".join(parts[2:]).rstrip()
-		log[timestamp] = message
+
+		if totalDay[day - 1] < args.maxPerDay:
+			log[timestamp] = message
+			totalDay[day - 1] += 1
 
 args.input.close()
 
@@ -35,9 +40,18 @@ for t in range(0, 31 * 24):
 random.shuffle(free)
 
 # allocate remaning hours
-while len(log) < args.total:
+while (len(log) < args.total) and (len(free) > 0):
 	t = free.pop()
-	log[t] = log[t + 1]
+	d = int(t / 24)
+	source = t + 1
+
+	while (totalDay[d] > args.maxPerDay) or (t in log):
+		t -= 1
+		d = int(t / 24)
+
+	log[t] = log[source]
+	totalDay[d] += 1
+
 	if (not (t - 1) in log) and (t > 0):
 		free.append(t - 1)
 		random.shuffle(free)
