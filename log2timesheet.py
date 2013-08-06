@@ -40,10 +40,9 @@ for line in args.input:
 
 args.input.close()
 
-
 # boostrap
 free = []
-for t in range(0, 31 * 24):
+for t in range(0, days * 24):
 	if (not t in log) and ((t + 1) in log):
 		free.append(t)
 
@@ -58,6 +57,9 @@ while (len(log) < args.total) and (len(free) > 0):
 	while (totalDay[d] >= args.maxPerDay) or (t in log):
 		t -= 1
 		d = int(t / 24)
+
+	if t < 0:
+		continue
 
 	log[t] = log[source]
 	totalDay[d] += 1

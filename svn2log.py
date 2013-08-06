@@ -40,7 +40,7 @@ for line in args.input.readlines():
 			year = int(dateParts[0])
 			month = int(dateParts[1])
 			day = int(dateParts[2])
-			hour = int(clockParts[1])
+			hour = int(clockParts[0])
 			if (year == args.year) and (month == args.month):
 				timestamp = "%i %i" % (day, hour)
 				valid = True
