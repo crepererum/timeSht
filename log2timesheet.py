@@ -5,6 +5,7 @@ from calendar import monthrange
 from collections import OrderedDict
 from datetime import date
 import random
+import timesht
 
 # constants
 WEEK = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -14,8 +15,8 @@ parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFo
 parser.add_argument("--input", type=open, default="timesht.log", help="Merged log file")
 parser.add_argument("--total", type=int, default=40, help="Wanted number of total hours per month")
 parser.add_argument("--maxPerDay", type=int, default=8, help="Maximum working hours per day")
-parser.add_argument("--year", type=int, required=True, help="Year of the timesheet (used to calculate the day of the week)")
-parser.add_argument("--month", type=int, required=True, help="Month of the timesheet (used to calculate the day of the week)")
+parser.add_argument("--year", type=int, default=timesht.defaultYear, help="Year of the timesheet (used to calculate the day of the week)")
+parser.add_argument("--month", type=int, default=timesht.defaultMonth, help="Month of the timesheet (used to calculate the day of the week)")
 
 args = parser.parse_args()
 
