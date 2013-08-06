@@ -6,16 +6,14 @@ from email.parser import HeaderParser
 import email.utils
 import getpass
 import imaplib
+import timesht
 import time
 
 # command line arguments
-parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="Converts imap folder to timeSht log")
-parser.add_argument("--output", type=argparse.FileType("a"), default="timesht.log", help="timeSht log file")
+parser = timesht.S2LArgparser("imap folder")
 parser.add_argument("--server", required=True, help="IMAP server")
 parser.add_argument("--user", default=getpass.getuser(), help="IMAP username")
 parser.add_argument("--mailboxes", default="Sent", help="IMAP mailboxes (comma seperated list)")
-parser.add_argument("--month", type=int, required=True, help="The interesting month")
-parser.add_argument("--year", type=int, required=True, help="The year of the interesting month")
 parser.add_argument("--sender", default="", help="Comma seperated list of possible senders")
 parser.add_argument("--to", default="", help="Comma seperated list of possible recipients")
 parser.add_argument("--ssl", type=bool, default=True, help="Use SSL for server connenction")

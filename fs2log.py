@@ -3,15 +3,13 @@
 import argparse
 import os
 import subprocess
+import timesht
 import time
 
 # command line arguments
-parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="Converts file system activities to timeSht log")
+parser = timesht.S2LArgparser("file system activities")
 parser.add_argument("--path", required=True, help="Path that should be scanned")
-parser.add_argument("--output", type=argparse.FileType("a"), default="timesht.log", help="timeSht log file")
 parser.add_argument("--suffixes", default="", help="Legal file suffixes, comma seperated list")
-parser.add_argument("--month", type=int, required=True, help="The magic month")
-parser.add_argument("--year", type=int, required=True, help="The magic year")
 parser.add_argument("--exiftool", action="store_true", help="Use exiftool to extract metadata from files")
 
 args = parser.parse_args()
