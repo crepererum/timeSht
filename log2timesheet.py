@@ -51,7 +51,7 @@ while (len(log) < args.total) and (len(free) > 0):
 	d = int(t / 24)
 	source = t + 1
 
-	while (totalDay[d] > args.maxPerDay) or (t in log):
+	while (totalDay[d] >= args.maxPerDay) or (t in log):
 		t -= 1
 		d = int(t / 24)
 
