@@ -1,3 +1,6 @@
 # log files
 *.log
 
+# tmp files
+*.swp
+
