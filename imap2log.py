@@ -64,13 +64,15 @@ for mailbox in args.mailboxes.split(","):
 				if len(args.sender) > 0:
 					valid = False
 					for sender in args.sender.split(","):
-						if not sender in header["From"]:
+						if sender in header["From"]:
 							valid = True
+							break
 				if len(args.to) > 0:
 					valid = False
 					for recipient in args.to.split(","):
-						if not recipient in header["To"]:
+						if recipient in header["To"]:
 							valid = True
+							break
 
 				# output
 				if valid:
