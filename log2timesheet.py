@@ -2,7 +2,11 @@
 
 import argparse
 from collections import OrderedDict
+from datetime import date
 import random
+
+# constants
+WEEK = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
 # command line arguments
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="Converts merged log to time sheet")
@@ -10,6 +14,8 @@ parser.add_argument("--input", type=open, default="timesht.log", help="Merged lo
 parser.add_argument("--days", type=int, default=31, help="Number of days of this month")
 parser.add_argument("--total", type=int, default=40, help="Wanted number of total hours per month")
 parser.add_argument("--maxPerDay", type=int, default=8, help="Maximum working hours per day")
+parser.add_argument("--year", type=int, help="Year of the timesheet (used to calculate the day of the week)")
+parser.add_argument("--month", type=int, help="Month of the timesheet (used to calculate the day of the week)")
 
 args = parser.parse_args()
 
@@ -61,6 +67,9 @@ total = 0
 for day in range(0, args.days):
 	entries = set()
 	hours = 0
+	dayOfTheWeek = ""
+	if args.year and args.month:
+		dayOfTheWeek = " (" + WEEK[date(args.year, args.month, day + 1).weekday()] + ")"
 
 	for t in range(day * 24, (day + 1) * 24):
 		if t in log:
@@ -68,7 +77,7 @@ for day in range(0, args.days):
 			hours += 1
 
 	if len(entries) > 0:
-		print("%i: %ih - %s" % (day + 1, hours, ", ".join(entries)))
+		print("%i%s: %ih - %s" % (day + 1, dayOfTheWeek, hours, ", ".join(entries)))
 
 	total += hours
 
