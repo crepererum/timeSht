@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+from calendar import monthrange
 from collections import OrderedDict
 from datetime import date
 import random
@@ -11,17 +12,19 @@ WEEK = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 # command line arguments
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="Converts merged log to time sheet")
 parser.add_argument("--input", type=open, default="timesht.log", help="Merged log file")
-parser.add_argument("--days", type=int, default=31, help="Number of days of this month")
 parser.add_argument("--total", type=int, default=40, help="Wanted number of total hours per month")
 parser.add_argument("--maxPerDay", type=int, default=8, help="Maximum working hours per day")
-parser.add_argument("--year", type=int, help="Year of the timesheet (used to calculate the day of the week)")
-parser.add_argument("--month", type=int, help="Month of the timesheet (used to calculate the day of the week)")
+parser.add_argument("--year", type=int, required=True, help="Year of the timesheet (used to calculate the day of the week)")
+parser.add_argument("--month", type=int, required=True, help="Month of the timesheet (used to calculate the day of the week)")
 
 args = parser.parse_args()
 
+# fix up some date stuff
+days = monthrange(args.year, args.month)[1]
+
 # parse log file
 log = OrderedDict()
-totalDay = [0] * args.days
+totalDay = [0] * days
 for line in args.input:
 	parts = line.split(" ")
 	if len(parts) > 2:
@@ -64,12 +67,11 @@ while (len(log) < args.total) and (len(free) > 0):
 
 # output
 total = 0
-for day in range(0, args.days):
+for day in range(0, days):
 	entries = set()
 	hours = 0
 	dayOfTheWeek = ""
-	if args.year and args.month:
-		dayOfTheWeek = " (" + WEEK[date(args.year, args.month, day + 1).weekday()] + ")"
+	dayOfTheWeek = WEEK[date(args.year, args.month, day + 1).weekday()]
 
 	for t in range(day * 24, (day + 1) * 24):
 		if t in log:
@@ -77,7 +79,7 @@ for day in range(0, args.days):
 			hours += 1
 
 	if len(entries) > 0:
-		print("%i%s: %ih - %s" % (day + 1, dayOfTheWeek, hours, ", ".join(entries)))
+		print("%i (%s): %ih - %s" % (day + 1, dayOfTheWeek, hours, ", ".join(entries)))
 
 	total += hours
 
