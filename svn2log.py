@@ -21,7 +21,7 @@ for line in args.input.readlines():
 	# next log entry?
 	if line.startswith("-------"):
 		if valid:
-			args.output.write("%s %s\n" % (timestamp, ", ".join(messageParts).rstrip()))
+			args.output.write("%s %s\n" % (timestamp, ", ".join(messageParts)))
 		messageParts = []
 		valid = False
 		delta = 0
@@ -46,8 +46,8 @@ for line in args.input.readlines():
 				valid = True
 
 	# parse log message
-	if delta > 2:
-		messageParts.append(line)
+	if (delta > 2) and (len(line.rstrip()) > 0):
+		messageParts.append(line.rstrip())
 
 	delta += 1
 
